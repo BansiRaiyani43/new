@@ -1,0 +1,25 @@
+{% extends 'teacher/basefile.html' %}
+{% block content %}
+<div class="container">
+  <h2>All Courses</h2>
+  <a href="{% url 'course_create' %}" class="btn btn-primary mb-3">Add New Course</a>
+  <table class="table table-bordered">
+    <tr>
+      <th>Course Code</th>
+      <th>Title</th>
+      <th>Teacher</th>
+      <th>Action</th>
+    </tr>
+    {% for course in courses %}
+    <tr>
+      <td>{{ course.code }}</td>
+      <td>{{ course.title }}</td>
+      <td>{{ course.teacher.username }}</td>
+      <td><a href="{% url 'course_detail' course.id %}" class="btn btn-sm btn-info">View</a></td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="4">No courses found.</td></tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}

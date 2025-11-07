@@ -1,0 +1,11 @@
+{% extends 'basefile.html' %}
+{% block content %}
+<div class="container">
+  <h2>{{ course.title }} ({{ course.code }})</h2>
+  <p><strong>Teacher:</strong> {{ course.teacher.username }}</p>
+  <p><strong>Description:</strong> {{ course.description }}</p>
+  <p><strong>Start:</strong> {{ course.start_date|default:"Not set" }}</p>
+  <p><strong>End:</strong> {{ course.end_date|default:"Not set" }}</p>
+  <a href="{% url 'course_list' %}" class="btn btn-secondary">Back to List</a>
+</div>
+{% endblock %}

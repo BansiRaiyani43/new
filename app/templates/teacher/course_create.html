@@ -1,0 +1,31 @@
+{% extends 'basefile.html' %}
+{% block content %}
+<div class="container">
+  <h2>Add New Course</h2>
+  <form method="POST">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label>Course Title</label>
+      <input type="text" name="title" class="form-control" required>
+    </div>
+    <div class="mb-3">
+      <label>Course Code</label>
+      <input type="text" name="code" class="form-control" required>
+    </div>
+    <div class="mb-3">
+      <label>Description</label>
+      <textarea name="description" class="form-control"></textarea>
+    </div>
+    <div class="mb-3">
+      <label>Teacher</label>
+      <select name="teacher" class="form-control" required>
+        <option value="">-- Select Teacher --</option>
+        {% for teacher in teachers %}
+        <option value="{{ teacher.id }}">{{ teacher.username }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <button type="submit" class="btn btn-success">Create Course</button>
+  </form>
+</div>
+{% endblock %}
