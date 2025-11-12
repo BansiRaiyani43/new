@@ -1,25 +1,102 @@
 {% extends 'teacher/basefile.html' %}
-{% block content %}
-<div class="container">
-  <h2>All Courses</h2>
-  <a href="{% url 'course_create' %}" class="btn btn-primary mb-3">Add New Course</a>
-  <table class="table table-bordered">
-    <tr>
-      <th>Course Code</th>
-      <th>Title</th>
-      <th>Teacher</th>
-      <th>Action</th>
-    </tr>
-    {% for course in courses %}
-    <tr>
-      <td>{{ course.code }}</td>
-      <td>{{ course.title }}</td>
-      <td>{{ course.teacher.username }}</td>
-      <td><a href="{% url 'course_detail' course.id %}" class="btn btn-sm btn-info">View</a></td>
-    </tr>
-    {% empty %}
-    <tr><td colspan="4">No courses found.</td></tr>
-    {% endfor %}
-  </table>
-</div>
+{% block body %}
+      <!-- ========== table components start ========== -->
+      <section class="table-components">
+        <div class="container-fluid">
+          <!-- ========== title-wrapper start ========== -->
+          <div class="title-wrapper pt-30">
+            <div class="row align-items-center">
+              <div class="col-md-6">
+                <div class="title">
+                  <h2>Course List</h2>
+                </div>
+              </div>
+              <!-- end col -->
+              <div class="col-md-6">
+                <div class="breadcrumb-wrapper">
+                  <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <p class="total" style="margin: 0; font-weight: bold;">Total courses: {{ course|length }}</p>
+                    </ol>
+                  </nav>
+                </div>
+              </div>
+              <!-- end col -->
+            </div>
+            <!-- end row -->
+          </div>
+          <!-- ========== title-wrapper end ========== -->
+
+          <!-- ========== tables-wrapper start ========== -->
+          <div class="tables-wrapper">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="card-style mb-30">
+                  <a href=""  class="main-btn success-btn btn-hover"  style="font-size: 15px; font-weight: 600; padding: 4px 15px;">+ Add New</a>
+                  <div class="table-wrapper table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th style="width:11%;" >
+                            <h4>Title</h4>
+                          </th>
+                          <th class="lead-email">
+                            <h4>Description</h4>
+                          </th>
+                          <th class="lead-company">
+                            <h4>Detail</h4>
+                          </th>
+                          <th>
+                            <h4>Action</h4>
+                          </th>
+                        </tr>
+                        <!-- end table row-->
+                      </thead>
+                      <tbody>
+                         {% for a in course %}
+                        <tr>
+                          <td class="min-width">
+                            {{ a.title }}
+                          </td>
+                          <td class="min-width">
+                           {{ a.description }}
+                          </td>
+                          <!-- <td class="min-width">
+                            {{ a.instructor }}
+                          </td> -->
+                          <td class="min-width">
+                           <a href="{% url 'course_detail' a.id %}" class="status-btn active-btn">View</a>
+                          </td>
+                          <td>
+                            <div class="action">
+                              <button class="edit">
+                                <i class="lni lni-pencil"></i>
+                              </button>
+                              <button class="text-danger">
+                                <i class="lni lni-trash-can"></i>
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                        {% empty %}
+                      </tbody>
+                      <tr>
+                        <td colspan="5">No courses available.</td>
+                      </tr>
+                      {% endfor %}
+                    </table>
+                    <!-- end table -->
+                  </div>
+                </div>
+                <!-- end card -->
+              </div>
+              <!-- end col -->
+            </div>
+            <!-- end row -->
+          </div>
+          <!-- ========== tables-wrapper end ========== -->
+        </div>
+        <!-- end container -->
+      </section>
+
 {% endblock %}

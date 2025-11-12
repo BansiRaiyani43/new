@@ -101,29 +101,34 @@ def admin_dashboard(request):
 
 # View all courses
 def course_list(request):
-    courses = Course.objects.all()
-    return render(request, 'teacher/course_list.html', {'courses': courses})
+    all_course= Course.objects.all()
+    return render(request, 'teacher/course_list.html', {'course': all_course})
 
 # Create a new course
 def course_create(request):
     if request.method == 'POST':
         title = request.POST.get('title')
-        code = request.POST.get('code')
         description = request.POST.get('description')
-        teacher_id = request.POST.get('teacher')
+        teacher = request.POST.get('teacher')
 
-        teacher = User.objects.get(id=teacher_id)
+        if title and description and teacher:
+            Course.objects.create(title=title, description=description, teacher=teacher)
+            messages.success(request, "Course added successfully!")
+            return redirect('courses_list')
+        else:
+            messages.error(request, "Please fill all fields.")
 
-        Course.objects.create(
-            title=title,
-            code=code,
-            description=description,
-            teacher=teacher
-        )
-        return redirect('course_list')
+    return render(request, 'course_create.html')
 
-    teachers = User.objects.filter(is_staff=True)  # assuming teachers are staff users
-    return render(request, 'courses/course_create.html', {'teachers': teachers})
+    #     Course.objects.create(
+    #         title=title,
+    #         description=description,
+    #         teacher=teacher
+    #     )
+    #     return redirect('course_list')
+
+    # teachers = User.objects.filter(is_staff=True)  # assuming teachers are staff users
+    # return render(request, 'courses/course_create.html', {'teachers': teachers})
 
 # Course details
 def course_detail(request, course_id):
