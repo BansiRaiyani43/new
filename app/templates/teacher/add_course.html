@@ -1,0 +1,58 @@
+{% extends 'teacher/basefile.html' %}
+{% block body %}
+      <!-- ========== table components start ========== -->
+      <section class="table-components">
+        <div class="container-fluid">
+          <!-- ========== title-wrapper start ========== -->
+          <div class="title-wrapper pt-30">
+            <div class="row align-items-center">
+              <div class="col-md-12 text-center">
+                <div class="title">
+                  <h2>Add New Course</h2>
+                </div>
+              </div>
+              <!-- end col -->
+            </div>
+            <!-- end row -->
+          </div>
+          <!-- ========== title-wrapper end ========== -->
+
+  <section class="form-components pt-30">
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-md-10">
+        <div class="card-style mb-30 p-4">
+          <form method="POST">
+            {% csrf_token %}
+            <!-- Title -->
+            <div class="mb-3">
+              <label for="title" class="form-label" style="font-weight: 600;">Course Title</label>
+              <input type="text" name="title" id="title" class="form-control" placeholder="Enter course title" required>
+            </div>
+
+            <!-- Description -->
+            <div class="mb-3">
+              <label for="description" class="form-label" style="font-weight: 600;">Description</label>
+              <textarea name="description" id="description" class="form-control" rows="4" placeholder="Enter course description" required></textarea>
+            </div>
+
+            <!-- Instructor -->
+            <div class="mb-3">
+              <label for="instructor" class="form-label" style="font-weight: 600;">Instructor</label>
+              <input type="text" name="instructor" id="instructor" class="form-control" placeholder="Enter instructor name" required>
+            </div>
+
+            <!-- Buttons -->
+            <div class="d-flex justify-content-center mt-4">
+              <button type="submit" class="main-btn success-btn btn-hover me-2">Save Course</button>
+              <a href="{% url 'course_list' %}" class="main-btn danger-btn btn-hover">Cancel</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+

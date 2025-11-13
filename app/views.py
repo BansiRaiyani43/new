@@ -99,38 +99,55 @@ def teacher_dashboard(request):
 def admin_dashboard(request):
     return render(request, "index.html")
 
-# View all courses
+#--------------- View all courses ---------------
 def course_list(request):
     all_course= Course.objects.all()
     return render(request, 'teacher/course_list.html', {'course': all_course})
 
-# Create a new course
-def course_create(request):
+#--------------- add a new course ---------------
+def add_course(request):
     if request.method == 'POST':
         title = request.POST.get('title')
         description = request.POST.get('description')
-        teacher = request.POST.get('teacher')
+        instructor = request.POST.get('instructor')
 
-        if title and description and teacher:
-            Course.objects.create(title=title, description=description, teacher=teacher)
+        if title and description and instructor:
+            Course.objects.create(title=title, description=description, instructor=instructor)
             messages.success(request, "Course added successfully!")
-            return redirect('courses_list')
+            return redirect('course_list')
         else:
             messages.error(request, "Please fill all fields.")
 
-    return render(request, 'course_create.html')
+    return render(request, 'teacher/add_course.html')
 
-    #     Course.objects.create(
-    #         title=title,
-    #         description=description,
-    #         teacher=teacher
-    #     )
-    #     return redirect('course_list')
+ #--------------- edit course --------------- 
+def edit_course(request, id):
+    course = get_object_or_404(Course, id=id)
 
-    # teachers = User.objects.filter(is_staff=True)  # assuming teachers are staff users
-    # return render(request, 'courses/course_create.html', {'teachers': teachers})
+    if request.method == "POST":
+        title = request.POST.get('title')
+        description = request.POST.get('description')
+        instructor = request.POST.get('instructor')
 
-# Course details
-def course_detail(request, course_id):
-    course = get_object_or_404(Course, id=course_id)
-    return render(request, 'courses/course_detail.html', {'course': course})
+        if title and description and instructor:
+            course.title = title
+            course.description = description
+            course.instructor = instructor
+            course.save()
+            messages.success(request, "Course updated successfully!")
+            return redirect('course_list')
+        else:
+            messages.error(request, "Please fill all fields.")
+
+    return render(request, 'teacher/edit_course.html', {'course': course})
+
+#--------------- view detail course --------------- 
+def course_detail(request,id):
+    one_course = get_object_or_404(Course, id=id)
+    return render(request,'teacher/course_detail.html',{'d':one_course})
+
+ #--------------- delete course --------------- 
+def delete_course(request,id):
+    dc = Course.objects.get(id=id)
+    dc.delete()
+    return redirect('course_list')

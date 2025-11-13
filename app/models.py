@@ -18,7 +18,7 @@ class User(AbstractUser):
 class Course(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True, null=True)
-    teacher = models.CharField(max_length=50)
+    instructor= models.CharField(max_length=50)
 
     def __str__(self):
         return self.title

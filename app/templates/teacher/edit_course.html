@@ -1,0 +1,129 @@
+{% extends 'teacher/basefile.html' %}
+{% block body %}
+<style>
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f4f7fa;
+  }
+
+  .edit-course-container {
+    max-width: 700px;
+    margin: 60px auto;
+    background: #fff;
+    padding: 30px 40px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  }
+
+  .edit-course-container h2 {
+    text-align: center;
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 25px;
+    font-weight: 600;
+  }
+
+  label {
+    font-weight: 600;
+    color: #444;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  input[type="text"],
+  textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 15px;
+    margin-bottom: 18px;
+    transition: border-color 0.3s ease;
+  }
+
+  input[type="text"]:focus,
+  textarea:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+
+  textarea {
+    height: 100px;
+    resize: vertical;
+  }
+
+  .update-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .update-btn:hover {
+    background-color: #0056b3;
+  }
+
+  .cancel-btn {
+    background-color: #dc3545;
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    margin-left: 10px;
+    transition: background-color 0.3s ease;
+  }
+
+  .cancel-btn:hover {
+    background-color: #b02a37;
+  }
+
+  .message {
+    text-align: center;
+    padding: 8px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+  }
+
+  .success {
+    background-color: #d4edda;
+    color: #155724;
+  }
+
+  .error {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+</style>
+
+<div class="edit-course-container">
+  <h2>Update Course</h2>
+<!-- Django messages -->
+  {% if messages %}
+    {% for message in messages %}
+      <p class="message {% if message.tags %}{{ message.tags }}{% endif %}">{{ message }}</p>
+    {% endfor %}
+  {% endif %}
+
+  <form method="POST">
+    {% csrf_token %}
+    <label for="title">Course Title:</label>
+    <input type="text" id="title" name="title" value="{{ course.title }}" required>
+
+    <label for="description">Description:</label>
+    <textarea id="description" name="description" required>{{ course.description }}</textarea>
+
+    <label for="instructor">Instructor:</label>
+    <input type="text" id="instructor" name="instructor" value="{{ course.instructor }}" required>
+
+    <div style="text-align:center; margin-top:15px;">
+      <button type="submit" class="update-btn">Update Course</button>
+      <a href="{% url 'course_list' %}" class="cancel-btn">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

@@ -1,11 +1,29 @@
-{% extends 'basefile.html' %}
-{% block content %}
-<div class="container">
-  <h2>{{ course.title }} ({{ course.code }})</h2>
-  <p><strong>Teacher:</strong> {{ course.teacher.username }}</p>
-  <p><strong>Description:</strong> {{ course.description }}</p>
-  <p><strong>Start:</strong> {{ course.start_date|default:"Not set" }}</p>
-  <p><strong>End:</strong> {{ course.end_date|default:"Not set" }}</p>
-  <a href="{% url 'course_list' %}" class="btn btn-secondary">Back to List</a>
+{% extends 'teacher/basefile.html' %}
+{% block body %}
+
+<div class="container-fluid mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow-sm p-4" style="border-radius: 20px; background: #fff;">
+        <h2 class="text-center fw-bold mb-4">{{ d.title }}</h2>
+
+        <div class="mb-3">
+          <h4 class="text-primary mb-1">Instructor :   {{ d.instructor }}</h4>
+          <p class="text-dark"></p>
+        </div>
+
+        <div class="mb-3">
+         <p class="text-muted">{{ d.description }}</p>
+        </div>
+
+        <div class="text-center mt-4">
+          <a href="{% url 'course_list' %}" class="btn btn-primary">
+            ← Back to Course List
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
 {% endblock %}
