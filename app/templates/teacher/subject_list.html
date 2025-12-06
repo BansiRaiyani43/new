@@ -1,0 +1,162 @@
+{% extends 'teacher/basefile.html' %}
+{% block body %}
+<style>
+    .action a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .action a:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .btn-outline-primary i {
+      font-size: 16px;
+    }
+
+    .btn-outline-danger i {
+      font-size: 16px;
+    }
+</style>
+      <!-- ========== table components start ========== -->
+      <section class="table-components">
+        <div class="container-fluid">
+          <!-- ========== title-wrapper start ========== -->
+          <div class="title-wrapper pt-30">
+            <div class="row align-items-center">
+              <div class="col-md-6">
+                <div class="title">
+                  <h2>Subject List</h2>
+                </div>
+              </div>
+              <!-- end col -->
+              <div class="col-md-6">
+                <div class="breadcrumb-wrapper">
+                  <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <p class="total" style="margin: 0; font-weight: bold;">Total subjects: {{ subjects|length }}</p>
+                    </ol>
+                  </nav>
+                </div>
+              </div>
+              <!-- end col -->
+            </div>
+            <!-- end row -->
+          </div>
+          <!-- ========== title-wrapper end ========== -->
+
+          <!-- ========== tables-wrapper start ========== -->
+          <div class="tables-wrapper">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="card-style mb-30">
+                  <a href="{% url 'add_subject' course.id  %}" class="main-btn success-btn btn-hover" style="font-size: 15px; font-weight: 600; padding: 4px 15px;">+ Add New</a>
+                  <div class="table-wrapper table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th style="width:11%;" >
+                            <h4>Name</h4>
+                          </th>
+                          <th style="width:10%;">
+                            <h4>Code</h4>
+                          </th>
+                          <th style="width:20%;">
+                            <h4>Course</h4>
+                          </th>
+                          <th style="align:justify">
+                            <h4>Description</h4>
+                          </th>
+                           <th>PDF</th>
+                          <th>Video</th>
+                          <th>
+                            <h4 style="width:20%; padding-left: 20px">Action</h4>
+                          </th>
+                        </tr>
+                        <!-- end table row-->
+                      </thead>
+                      <tbody>
+                         {% for sub in subjects %}
+                        <tr>
+                          <td class="min-width">
+                            {{ sub.name }}
+                          </td>
+                          <td class="min-width">
+                            {{ sub.code }}
+                          </td>
+                          <td class="min-width">
+                            {{ sub.course }}
+                          </td> 
+                          <td class="min-width" style="text-align:justify">
+                            {{ sub.description }}
+                          </td>
+          <!---------- PDF Section ----------->
+                          <td>
+                            {% if sub.pdf %}
+                              <a href="{{ sub.pdf.url }}" target="_blank" class="btn btn-sm btn-outline-success" title="Download PDF">
+                                <i class="lni lni-download"></i>
+                              </a>
+                            {% else %}
+                              <span class="text-muted">No file</span>
+                            {% endif %}
+                          </td>
+
+          <!------------ Video Section ------------>
+                          <td>
+                            {% if sub.video %}
+                              <a href="{{ sub.video.url }}" target="_blank" class="btn btn-sm btn-outline-info" title="Watch Video">
+                                <i class="lni lni-play"></i>
+                              </a>
+                            {% else %}
+                              <span class="text-muted">No video</span>
+                            {% endif %}
+                          </td>
+                          {% comment %}
+                           
+          <!------------ action button Section ------------>                 
+                          <td class="min-width">
+                           <a href="" class="status-btn active-btn">View</a>
+                          </td> {% endcomment %}
+                          <td>
+                            <div class="action">
+                             <a href="{% url 'subject_edit' course.id sub.id %}"
+                              class="btn btn-sm btn-outline-primary me-2" title="Edit">
+                              <i class="lni lni-pencil"></i>
+                             </a>
+                             <button class="text-danger">
+                                <a href="{% url 'subject_delete' course.id sub.id %}" class="btn btn-sm btn-outline-primary me-2"
+                                onclick="return confirm('Are you sure you want to delete this subject ?');">
+                                  <i class="lni lni-trash-can"></i>
+                                </a>
+                             </button>
+                            </div>
+                          </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                          <td colspan="5">No subjects available.</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                    <!-- end table -->
+                  </div>
+                </div>
+                <!-- end card -->
+              </div>
+              <!-- end col -->
+            </div>
+            <!-- end row -->
+          </div>
+          <!-- ========== tables-wrapper end ========== -->
+        </div>
+        <!-- end container -->
+      </section>
+
+{% endblock %}

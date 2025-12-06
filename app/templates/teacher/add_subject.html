@@ -1,0 +1,71 @@
+{% extends 'teacher/basefile.html' %}
+{% load static %}
+{% block body %}
+      <!-- ========== table components start ========== -->
+      <section class="table-components">
+        <div class="container-fluid">
+          <!-- ========== title-wrapper start ========== -->
+          <div class="title-wrapper pt-30">
+            <div class="row align-items-center">
+              <div class="col-md-12 text-center">
+                <div class="title">
+                  <h2>{{ course.title }}</h2>
+                </div>
+              </div>
+              <!-- end col -->
+            </div>
+            <!-- end row -->
+          </div>
+          <!-- ========== title-wrapper end ========== -->
+
+  <section class="form-components pt-30">
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-md-10">
+        <div class="card-style mb-30 p-4">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <!-- Name -->
+            <div class="mb-3">
+              <label for="name" class="form-label" style="font-weight: 600;">Subject Name</label>
+              <input type="text" name="name" id="name" class="form-control" placeholder="Enter subject name" required>
+            </div>
+
+            <!-- Code -->
+            <div class="mb-3">
+              <label for="code" class="form-label" style="font-weight: 600;">Course Code</label>
+              <input name="code" id="code" class="form-control"  placeholder="Enter subject code" required>
+            </div>
+
+            <!-- Description -->
+            <div class="mb-3">
+              <label for="description" class="form-label" style="font-weight: 600;">Description</label>
+              <textarea name="description" id="description" class="form-control" rows="4" placeholder="Enter course description" required></textarea>
+            </div>
+
+            <!-- PDF -->
+            <div class="col-md-6">
+              <label class="form-label fw-bold">Upload PDF</label>
+              <input type="file" name="pdf" accept="application/pdf" class="form-control">
+              <small class="text-muted">Only .pdf file allowed</small>
+            </div>
+
+            <!-- Video -->
+            <div class="col-md-6">
+              <label class="form-label fw-bold">Upload Video</label>
+              <input type="file" name="video" accept="video/*" class="form-control">
+              <small class="text-muted">mp4, mkv, avi supported</small>
+            </div>
+
+            <!-- Buttons -->
+            <div class="d-flex justify-content-center mt-4">
+              <button type="submit" class="main-btn success-btn btn-hover me-2">Save Course</button>
+              <a href="{% url 'subject_list' course.id %}" class="main-btn danger-btn btn-hover">Cancel</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

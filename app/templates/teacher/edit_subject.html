@@ -1,0 +1,74 @@
+{% extends 'teacher/basefile.html' %}
+{% block body %}
+      <!-- ========== table components start ========== -->
+      <section class="table-components">
+        <div class="container-fluid">
+          <!-- ========== title-wrapper start ========== -->
+          <div class="title-wrapper pt-30">
+            <div class="row align-items-center">
+              <div class="col-md-12 text-center">
+                <div class="title">
+                  <h2 class="text-center">Edit Subject</h2>
+                </div>
+              </div>
+              <!-- end col -->
+            </div>
+            <!-- end row -->
+          </div>
+          <!-- ========== title-wrapper end ========== -->
+
+  <section class="form-components pt-30">
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-md-10">
+        <div class="card-style mb-30 p-4">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <!-- Name -->
+            <div class="mb-3">
+              <label for="name" class="form-label" style="font-weight: 600;">Subject Name</label>
+              <input class="form-control" name="name" value="{{ subject.name }}" required>
+            </div>
+
+            <!-- Code -->
+            <div class="mb-3">
+              <label for="code" class="form-label" style="font-weight: 600;">Course Code</label>
+              <input class="form-control" name="code" value="{{ subject.code }}" required>
+            </div>
+
+            <!-- Description -->
+            <div class="mb-3">
+              <label for="description" class="form-label" style="font-weight: 600;">Description</label>
+              <textarea class="form-control" name="description">{{ subject.description }}</textarea>
+            </div>
+
+            <div class="mb-3">
+              <label for="pdf" class="form-label" style="font-weight: 600;">Upload PDF</label>
+              <input type="file" name="pdf" class="form-control" value="{{ subject.pdf }}">
+            </div>
+
+            <div class="mb-3">
+              <label for="video" class="form-label" style="font-weight: 600;">Upload Video</label>
+              <input type="file" name="video" class="form-control">
+            </div>
+
+            <!-- Buttons -->
+            <div class="d-flex justify-content-center mt-4">
+              <button type="submit" class="main-btn success-btn btn-hover me-2">Update</button>
+              <a href="{% url 'subject_list' course.id %}" class="main-btn danger-btn btn-hover">Cancel</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+
+
+
+          
+
+         
+       

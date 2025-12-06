@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
-from .models import User, Course
+from .models import User, Course, Subject
 
 # Create your views here.
 User = get_user_model()
@@ -141,13 +141,79 @@ def edit_course(request, id):
 
     return render(request, 'teacher/edit_course.html', {'course': course})
 
-#--------------- view detail course --------------- 
-def course_detail(request,id):
-    one_course = get_object_or_404(Course, id=id)
-    return render(request,'teacher/course_detail.html',{'d':one_course})
-
  #--------------- delete course --------------- 
 def delete_course(request,id):
     dc = Course.objects.get(id=id)
     dc.delete()
     return redirect('course_list')
+
+#--------------- view all subject --------------- 
+def subject_list(request, course_id):
+    course = Course.objects.get(id=course_id)
+    subjects = Subject.objects.filter(course=course)
+
+    context = {
+        "course": course,
+        "subjects": subjects,
+        "total": subjects.count(),
+    }
+    return render(request, "teacher/subject_list.html", context)
+
+#--------------- add new subject --------------- 
+def subject_add(request, course_id):
+    course =  Course.objects.get(id=course_id)
+    
+    if request.method == "POST":
+        print("FILES >>> ", request.FILES) 
+        
+        name = request.POST.get("name")
+        code = request.POST.get("code")
+        description = request.POST.get("description")
+        pdf = request.FILES.get("pdf")
+        video = request.FILES.get("video")
+
+
+        Subject.objects.create(
+            name=name,
+            code=code,
+            description=description,
+            course=course,
+            pdf=pdf,
+            video=video
+        )
+        return redirect("subject_list", course_id=course.id)
+
+    subjects = Subject.objects.filter(course=course)
+
+    return render(request, "teacher/add_subject.html", {
+        "course": course,
+        "subjects": subjects
+    })
+
+
+#--------------- edit subject --------------- 
+def subject_edit(request, course_id, id):
+    course = Course.objects.get(id=course_id)
+    subject = Subject.objects.get(id=id)
+
+    if request.method == "POST":
+        subject.name = request.POST.get("name")
+        subject.code = request.POST.get("code")
+        subject.description = request.POST.get("description")
+
+        if request.FILES.get("pdf"):
+            subject.pdf = request.FILES.get("pdf")
+
+        if request.FILES.get("video"):
+            subject.video = request.FILES.get("video")
+
+        subject.save()
+        return redirect("subject_list", course_id=course.id)
+
+    return render(request, "teacher/edit_subject.html", {"subject": subject, "course": course})
+
+#--------------- delete subject --------------- 
+def subject_delete(request, course_id, id):
+    subject = Subject.objects.get(id=id)
+    subject.delete()
+    return redirect("subject_list", course_id=course_id)
